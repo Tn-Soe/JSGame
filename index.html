@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2-T02G10-8246683,8222782,7673528(Yunfan Zou,Dinglin Yu,Thet Naung Soe)</title>
+    <style>
+        td {
+            text-align: center;
+        }
+        
+        #buttonStart {
+            width: 550px;
+            height: 60px;
+            margin-right: 150px;
+        }
+        
+        #buttonStop {
+            width: 550px;
+            height: 60px;
+            margin-left: 150px;
+        }
+        
+        #startRow {
+            height: 40px;
+            background-color: burlywood;
+        }
+        
+        #chooseRow {
+            height: 70px;
+        }
+        
+        #buttonRow {
+            height: 40px;
+            background-color: greenyellow;
+        }
+        
+        #finalRow {
+            height: 100px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            margin-left: 150px;
+            border: 1px solid black;
+        }
+        
+        .fRowTd {
+            font-size: 40px;
+        }
+        
+        #selectNumber {
+            display: none;
+            width: 50px;
+            margin-left: 150px;
+        }
+    </style>
+
+    <script>
+        var totalScore = 0;
+        var dummyInterval;
+
+        function numShow() {
+            var e = document.getElementById("selectNumber");
+            if (e.style.display == "none")
+                e.style.display = "block";
+            else
+                e.style.display = "none";
+        }
+
+        function updateLabel() {
+            var selectedNum = document.getElementById("selectNumber");
+            var e = document.getElementById("targetNumber");
+            var selectedValue = selectedNum.value;
+            e.innerHTML = selectedValue;
+            e.style.fontWeight = "bold";
+            e.style.fontSize = "50px";
+            numShow();
+        }
+
+        function buttonStart() {
+            numShow();
+            totalScore = 0;
+            document.getElementById("scoreBoard").textContent = "0";
+            document.getElementById("fNum").innerHTML = "&lt;1<sup>st</sup> number&gt;";
+            document.getElementById("sNum").innerHTML = "&lt;2<sup>nd</sup> number&gt;";
+            document.getElementById("tNum").innerHTML = "&lt;3<sup>rd</sup> number&gt;";
+            dummyInterval = setInterval(interValChange, 2000);
+
+        }
+
+        function interValChange() {
+            var firstNum = document.getElementById("fNum");
+            var secondNum = document.getElementById("sNum");
+            var thirdNum = document.getElementById("tNum");
+
+            var getNum = document.getElementById("selectNumber");
+            getNum.disabled = true;
+
+            var fnumber, snumber, tnumber;
+            do {
+                fnumber = Math.floor(Math.random() * 10);
+                snumber = Math.floor(Math.random() * 10);
+                tnumber = Math.floor(Math.random() * 10);
+            } while (fnumber == snumber || fnumber == tnumber || snumber == tnumber);
+
+            firstNum.textContent = fnumber;
+            secondNum.textContent = snumber;
+            thirdNum.textContent = tnumber;
+
+        }
+
+        function firstFun() {
+            var fNum = document.getElementById("fNum");
+            var getValue = document.getElementById("selectNumber");
+            if (fNum.textContent == getValue.value)
+                totalScore = totalScore + 3;
+            else
+                totalScore = totalScore - 2;
+
+            document.getElementById("scoreBoard").innerHTML = totalScore;
+        }
+
+        function secondFun() {
+            var sNum = document.getElementById("sNum");
+            var getValue = document.getElementById("selectNumber");
+            if (sNum.textContent == getValue.value)
+                totalScore = totalScore + 3;
+            else
+                totalScore = totalScore - 2;
+            document.getElementById("scoreBoard").innerHTML = totalScore;
+        }
+
+        function thirdFun() {
+            var tNum = document.getElementById("tNum");
+            var getValue = document.getElementById("selectNumber");
+            if (tNum.textContent == getValue.value)
+                totalScore = totalScore + 3;
+            else
+                totalScore = totalScore - 2;
+            document.getElementById("scoreBoard").innerHTML = totalScore;
+        }
+
+        function buttonStop() {
+            clearInterval(dummyInterval);
+            var getNum = document.getElementById("selectNumber");
+            getNum.disabled = false;
+        }
+    </script>
+</head>
+
+<body>
+    <h2><u>Part 2:</u></h2>
+    <table border="1" width="75%">
+        <tr id="startRow">
+            <th colspan="3" style="font-size: 25px;">
+                Part 2: Game
+            </th>
+        </tr>
+        <tr id="chooseRow">
+            <td width="33%" style="background-color:lightblue;font-size: 30px;"><b>Your chosen number:</b></td>
+            <td width="33%" style="background-color:lightblue;font-size: 30px">
+                <label id="targetNumber" onclick="numShow()">&lt;list box showing 0 to 9&gt;</label>
+                <select id="selectNumber" name="selectNumber" onchange="updateLabel()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            </td>
+            <td width="33%" style="background-color: bisque;font-size: 30px">
+                <b>Current Score :</b><span style="color:red"><b id="scoreBoard"> 0</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" id="buttonRow">
+                <span id="buttonStart" onclick="buttonStart()">&lt;Start Game Button&gt;</span>
+                <span id="buttonStop" onclick="buttonStop()">&lt;Stop Game Button&gt;</span>
+            </td>
+        </tr>
+        <tr id="finalRow">
+            <td class="fRowTd" style="color:gold" id="fNum" onclick="firstFun()">&lt;1<sup>st</sup> number&gt;</td>
+            <td class="fRowTd" style="color:blue" id="sNum" onclick="secondFun()">&lt;2<sup>nd</sup> number&gt;</td>
+            <td class="fRowTd" style="color:green" id="tNum" onclick="thirdFun()">&lt;3<sup>rd</sup> number&gt;</td>
+        </tr>
+    </table>
+</body>
+
+</html>
